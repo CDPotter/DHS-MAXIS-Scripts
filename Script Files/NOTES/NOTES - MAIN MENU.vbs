@@ -289,7 +289,7 @@ LOOP UNTIL ButtonPressed <> SIR_instructions_button AND _
 			ButtonPressed <> LTC_notes_button
 
 'Available scripts
-IF ButtonPressed = APPLYMN_APPLICATION_RECEIVED_button				THEN CALL run_from_GitHub(script_repository & "/NOTES/NOTES - APPLYMN APPLICATION RECEIVED.vbs")		
+IF ButtonPressed = APPLYMN_APPLICATION_RECEIVED_button				THEN CALL run_from_GitHub("https://raw.githubusercontent.com/CDPotter/DHS-MAXIS-Scripts/ONLINE-TESTING/Script%20Files/NOTES/NOTES%20-%20HCAPP.vbs")		
 IF ButtonPressed = APPROVED_PROGRAMS_button							THEN CALL run_from_GitHub(script_repository & "/NOTES/NOTES - APPROVED PROGRAMS.vbs")					
 IF ButtonPressed = BABY_BORN_button									THEN CALL run_from_GitHub(script_repository & "/NOTES/NOTES - BABY BORN.vbs")
 IF ButtonPressed = BURIAL_ASSETS_button								THEN CALL run_from_GitHub(script_repository & "/NOTES/NOTES - BURIAL ASSETS.vbs")						
