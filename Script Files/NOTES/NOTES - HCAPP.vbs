@@ -232,6 +232,8 @@ End if
 
 msgbox "Last echo before calling dialog " & footer_month
 
+footer_month = "10"
+
 'Showing the case number
 Do
 	Dialog case_number_and_footer_month_dialog
