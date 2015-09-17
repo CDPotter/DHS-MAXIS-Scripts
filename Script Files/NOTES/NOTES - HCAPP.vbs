@@ -236,6 +236,8 @@ footer_month = "10"
 
 'Showing the case number
 Do
+footer_month = "10"
+
 	Dialog case_number_and_footer_month_dialog
 	If ButtonPressed = 0 then stopscript
 	If case_number = "" or IsNumeric(case_number) = False or len(case_number) > 8 then MsgBox "You need to type a valid case number."
