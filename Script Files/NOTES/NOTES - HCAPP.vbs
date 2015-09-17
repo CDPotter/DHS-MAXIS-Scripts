@@ -233,6 +233,7 @@ End if
 msgbox "Last echo before calling dialog " & footer_month
 
 'footer_month = "10"
+footer_month = CStr(footer_month)
 
 'Showing the case number
 Do
