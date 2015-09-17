@@ -222,7 +222,7 @@ call MAXIS_case_number_finder(case_number)
 
 'Grabbing the footer month/year
 call find_variable("Month: ", MAXIS_footer_month, 2)
-msgbox MAXIS_footer_month
+msgbox "find variable Month: " & MAXIS_footer_month & " row: " & row
 If row <> 0 then 
 	footer_month = MAXIS_footer_month
 	msgbox "footer month in IF: " & footer_month
