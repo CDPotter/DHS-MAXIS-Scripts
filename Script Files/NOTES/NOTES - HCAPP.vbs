@@ -236,7 +236,7 @@ footer_month = "10"
 
 'Showing the case number
 Do
-footer_month = "10"
+'footer_month = "10"
 
 	Dialog case_number_and_footer_month_dialog
 	If ButtonPressed = 0 then stopscript
