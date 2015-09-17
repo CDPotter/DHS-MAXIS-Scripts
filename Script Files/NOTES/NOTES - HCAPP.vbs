@@ -232,7 +232,7 @@ End if
 
 msgbox "Last echo before calling dialog " & footer_month
 
-footer_month = "10"
+'footer_month = "10"
 
 'Showing the case number
 Do
