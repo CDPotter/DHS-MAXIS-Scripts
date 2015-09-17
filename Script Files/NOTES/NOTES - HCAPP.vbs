@@ -46,10 +46,14 @@ IF IsEmpty(FuncLib_URL) = TRUE THEN	'Shouldn't load FuncLib if it already loaded
 END IF
 'END FUNCTIONS LIBRARY BLOCK================================================================================================
 
+msgbox "You're in CDP branch"
+
 
 'DATE CALCULATIONS----------------------------------------------------------------------------------------------------
 next_month = dateadd("m", + 1, date)
+msgbox "date calc next month: " & next_month 
 footer_month = datepart("m", next_month)
+msgbox "date calc footer_month: " & footer_month
 If len(footer_month) = 1 then footer_month = "0" & footer_month
 footer_year = datepart("yyyy", next_month)
 footer_year = "" & footer_year - 2000
@@ -218,8 +222,10 @@ call MAXIS_case_number_finder(case_number)
 
 'Grabbing the footer month/year
 call find_variable("Month: ", MAXIS_footer_month, 2)
+msgbox MAXIS_footer_month
 If row <> 0 then 
 	footer_month = MAXIS_footer_month
+	msgbox "footer month in IF: " & footer_month
 	call find_variable("Month: " & footer_month & " ", MAXIS_footer_year, 2)
 	If row <> 0 then footer_year = MAXIS_footer_year
 End if
