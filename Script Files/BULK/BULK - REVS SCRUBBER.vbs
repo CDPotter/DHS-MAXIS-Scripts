@@ -260,7 +260,7 @@ If developer_mode = true then
 	day_of_month = DatePart("D", date)
 	IF day_of_month < 16 THEN 
 		cm_plus_2 = dateadd("M", 1, date)
-		If right(left(cm_plus_2, 1),1) = "/" Then cm_plus_2 = "0" & cm_plus_2
+		If right(left(cm_plus_2, 2),1) = "/" Then cm_plus_2 = "0" & cm_plus_2
 	END IF
 End IF
 
