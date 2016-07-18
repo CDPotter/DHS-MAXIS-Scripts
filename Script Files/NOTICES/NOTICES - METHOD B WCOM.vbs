@@ -52,7 +52,7 @@ END IF
 
 'Dialogs----------------------------------------------------------------------------------------------------
 BeginDialog case_number_dialog, 0, 0, 146, 70, "Case number dialog"
-  EditBox 80, 5, 60, 15, case_number
+  EditBox 80, 5, 60, 15, MAXIS_case_number
   EditBox 80, 25, 25, 15, MAXIS_footer_month
   EditBox 115, 25, 25, 15, MAXIS_footer_year
   ButtonGroup ButtonPressed
@@ -104,7 +104,7 @@ EndDialog
 'THE SCRIPT----------------------------------------------------------------------------------------------------
 'Connects to BlueZone & grabs the case number
 EMConnect ""
-call MAXIS_case_number_finder(case_number)
+call MAXIS_case_number_finder(MAXIS_case_number)
 Call MAXIS_footer_finder (MAXIS_footer_month, MAXIS_footer_year)
 
 Call check_for_MAXIS(False)
@@ -113,7 +113,7 @@ Do
   err_msg = ""
   Dialog case_number_dialog
   If ButtonPressed = 0 then stopscript
-  If case_number = "" or IsNumeric(case_number) = False or len(case_number) > 8 then err_msg = err_msg & vbNewLine & "* Enter a valid case number."
+  If MAXIS_case_number = "" or IsNumeric(MAXIS_case_number) = False or len(MAXIS_case_number) > 8 then err_msg = err_msg & vbNewLine & "* Enter a valid case number."
   If IsNumeric(MAXIS_footer_month) = False or len(MAXIS_footer_month) > 2 or len(MAXIS_footer_month) < 2 then err_msg = err_msg & vbNewLine & "* Enter a valid footer month."
   If IsNumeric(MAXIS_footer_year) = False or len(MAXIS_footer_year) > 2 or len(MAXIS_footer_year) < 2 then err_msg = err_msg & vbNewLine & "* Enter a valid footer year."
   IF err_msg <> "" THEN MsgBox "*** NOTICE!!! ***" & vbNewLine & err_msg & vbNewLine
@@ -126,9 +126,13 @@ EMWriteScreen MAXIS_footer_year, 20, 46
 transmit
 
 Call navigate_to_MAXIS_screen ("STAT", "MEDI")
-EMReadScreen Medicare_A, 8, 7, 46
-EMReadScreen Medicare_B, 8, 7, 73
-
+'checking for if Medicare is applied to spenddown or not
+EMReadscreen medicare_spenddown_check, 1, 11, 71
+IF medicare_spenddown_check = "Y" THEN
+	EMReadScreen Medicare_A, 8, 7, 46
+	EMReadScreen Medicare_B, 8, 7, 73
+END IF
+	
 'cleaning up and creating variables to be autofilled into the dialog
 IF Medicare_A = "________" then Medicare_A = ""
 If Medicare_B = "________" then Medicare_B = ""
@@ -136,7 +140,7 @@ medi_part_a = (Medicare_A)
 medi_part_b = (Medicare_B)
 
 'GETTING INCOME STANDARD AND SPENDOWN AMOUNTS
-call navigate_to_screen("ELIG", "HC")
+call navigate_to_MAXIS_screen("ELIG", "HC")
 EMSendKey "x"
 transmit
 EMReadScreen method_type, 1, 13, 21
@@ -165,8 +169,8 @@ Do
   err_msg = ""
   Do
 		Dialog MEMOS_LTC_METHOD_B_dialog
-    cancel_confirmation
-    MAXIS_Dialog_navigation
+		cancel_confirmation
+		MAXIS_Dialog_navigation
 		If ButtonPressed = CALC_button THEN
 			'makes the deduction amounts = 0 so the Abs(number) function work
 			If medi_part_a = "" THEN medi_part_a = "0"
@@ -230,7 +234,6 @@ If medi_part_b <> "" then Write_variable_in_SPEC_MEMO("Medicare Part B     - $" 
 If medi_part_d <> "" then Write_variable_in_SPEC_MEMO("Medicare Part D     - $" & medi_part_d)
 If remedial_care <> "" then Write_variable_in_SPEC_MEMO("Remedial care       - $" & remedial_care)
 If other_deductions <> "" then Write_variable_in_SPEC_MEMO("Other deductions    - $" & other_deductions)
-If health_insa <> "" then Write_variable_in_SPEC_MEMO("Health insurance    - $" & health_insa)
 If health_insa <> "" then Write_variable_in_SPEC_MEMO("Health insurance    - $" & health_insa)
 Call Write_variable_in_SPEC_MEMO("Recipient amount:   =$" & recipient_amt)
 If GRH_check = 1 Then Write_variable_in_SPEC_MEMO("This amount is in addition to your room and board.")
